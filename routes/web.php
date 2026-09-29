@@ -5,7 +5,10 @@ use App\Http\Controllers\Apps\RoleManagementController;
 use App\Http\Controllers\Apps\UserManagementController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Etica\DocumentoController;
+use App\Http\Controllers\Etica\SesionComiteController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +33,102 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/user-management/permissions', PermissionManagementController::class);
     });
 
+    
+
 });
+
+
+// Rutas para el módulo de ética
+    Route::middleware([
+            'auth',
+        ])
+        ->prefix('etica')
+        ->name('etica.')
+        ->group(function () {
+
+            /*
+            * =====================================================
+            * SESIONES
+            * =====================================================
+            */
+
+            Route::put(
+                '/sesiones/{sesion}/actualizar',
+                [
+                    SesionComiteController::class,
+                    'actualizar',
+                ]
+            )->name(
+                'sesiones.actualizar'
+            );
+
+            Route::post(
+                '/sesiones/{sesion}/enviar',
+                [
+                    SesionComiteController::class,
+                    'enviar',
+                ]
+            )->name(
+                'sesiones.enviar'
+            );
+
+            Route::post(
+                '/sesiones/{sesion}/iniciar-revision',
+                [
+                    SesionComiteController::class,
+                    'iniciarRevision',
+                ]
+            )->name(
+                'sesiones.iniciar-revision'
+            );
+
+            Route::post(
+                '/sesiones/{sesion}/observar',
+                [
+                    SesionComiteController::class,
+                    'observar',
+                ]
+            )->name(
+                'sesiones.observar'
+            );
+
+            Route::post(
+                '/sesiones/{sesion}/validar',
+                [
+                    SesionComiteController::class,
+                    'validar',
+                ]
+            )->name(
+                'sesiones.validar'
+            );
+
+            /*
+            * =====================================================
+            * DOCUMENTOS
+            * =====================================================
+            */
+
+            Route::post(
+                '/sesiones/{sesion}/documentos',
+                [
+                    DocumentoController::class,
+                    'guardar',
+                ]
+            )->name(
+                'sesiones.documentos.guardar'
+            );
+
+            Route::get(
+                '/documentos/{documento}/descargar',
+                [
+                    DocumentoController::class,
+                    'descargar',
+                ]
+            )->name(
+                'documentos.descargar'
+            );
+        });
+
 
 Route::get('/error', function () {
     abort(500);

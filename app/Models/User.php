@@ -66,4 +66,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->addresses?->first();
     }
+
+    public function comites()
+    {
+        return $this->belongsToMany(
+            Comite::class,
+            'comite_user',
+            'user_id',
+            'comite_id'
+        )->withTimestamps();
+    }
 }

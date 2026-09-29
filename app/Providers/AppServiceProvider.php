@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Core\KTBootstrap;
+use App\Models\SesionComite;
+use App\Policies\SesionComitePolicy;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,6 +15,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
+    protected $policies = [
+        SesionComite::class =>
+            SesionComitePolicy::class,
+    ];
+
     public function register()
     {
         //

@@ -2,32 +2,41 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
-use App\Models\Address;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
-     *
-     * @return void
+     * Alimenta la base de datos inicial del sistema.
      */
-    public function run()
+    public function run(): void
     {
         $this->call([
-            UsersSeeder::class,
+            /*
+             * 1. Primero se crean roles y permisos.
+             *
+             * Esto DEBE ejecutarse antes de UsersSeeder,
+             * porque los usuarios necesitan que los roles
+             * ya existan.
+             */
             RolesPermissionsSeeder::class,
+
+            /*
+             * 2. Después se crean los usuarios y
+             * se les asignan los roles correspondientes.
+             */
+            UsersSeeder::class,
+
+            /*
+             * 3. Finalmente cargamos los catálogos
+             * iniciales del sistema.
+             */
+            TiposDocumentoSeeder::class,
+
+            /*
+             * Más adelante:
+             */
+            // CriteriosEvaluacionSeeder::class,
         ]);
-
-        //\App\Models\User::factory(20)->create();
-
-        Address::factory(3)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
